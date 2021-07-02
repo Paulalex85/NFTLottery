@@ -14,7 +14,9 @@
     "url": "git+https://github.com/Paulalex85/NFTLottery.git"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "4.1.0"
+    "@iexec/doracle": "5.2.1-2",
+    "@iexec/solidity": "0.1.0",
+    "@openzeppelin/contracts": "3.4.0"
   },
   "devDependencies": {
     "solidity-coverage": "^0.7.16",

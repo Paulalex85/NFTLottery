@@ -2,28 +2,23 @@ pragma solidity ^0.6.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract RandomNFT is ERC721 {
+contract RandomNFT is ERC721, Ownable {
     using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
-    address owner;
+    Counters.Counter private tokenId;
 
-    constructor() ERC721("RandomNFT", "RAN") {
-        owner = address(msg.sender);
+    constructor() ERC721("RandomNFT", "RAND") public {
+        tokenId.increment();
     }
 
-    function setOwner(address newOwner) {
-        require(msg.sender == owner);
-        owner = newOwner;
+    function award(address winner) external onlyOwner {
+        _safeMint(winner, tokenId.current());
+
+        tokenId.increment();
     }
 
-    function award(address winner) public returns (uint256) {
-        require(msg.sender == owner);
-        _tokenIds.increment();
-
-        uint256 newItemId = _tokenIds.current();
-        _safeMint(winner, newItemId);
-
-        return newItemId;
+    function getCurrentTokenId() external view returns (uint256) {
+        return tokenId.current();
     }
 }
